@@ -110,6 +110,7 @@ def extract_actions(match_id: int) -> pd.DataFrame:
             {
                 "match_id": match_id,
                 "team": team,
+                "player": e.get("player", {}).get("name"),
                 "period": period,
                 "minute": e["minute"],
                 "second": e["second"],
