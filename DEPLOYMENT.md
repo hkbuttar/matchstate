@@ -63,11 +63,31 @@ endpoint here is read-only public sports data, so the wildcard default
 isn't a real security issue -- this is least-privilege hygiene, not a fix
 for a vulnerability.
 
-## Not yet done
+## Two real bugs found during actual deployment attempts, and fixed
 
-Nothing has actually been deployed by me -- `render.yaml` and the env-var
-wiring are prepared and verified locally, but creating the live Render
-service and triggering `vercel --prod` are real, visible actions against
-your accounts (they create public URLs and, on Render, consume your
-account's usage), so they're left for you to trigger, or for me to trigger
-on your explicit go-ahead.
+Preparing this file and verifying things locally wasn't enough to catch
+either of these -- both only showed up once a real deploy was attempted:
+
+1. **`pip._vendor.resolvelib.resolvers.ResolutionTooDeep`** during the
+   Render build. `requirements.txt` used loose `>=` version ranges
+   throughout; combined with `pymc`'s large dependency tree (pytensor ->
+   numba -> llvmlite), pip's resolver couldn't find a satisfying
+   combination in reasonable time. Fixed by pinning every top-level
+   dependency to an exact, already-verified-working version (checked
+   first that none of the pinned packages are platform-specific --
+   `appnope`, a transitive macOS-only dependency, confirmed a *full*
+   transitive freeze would have been risky on Render's Linux build, so
+   only the top-level packages in `requirements.txt` are pinned).
+2. **`ValueError: No objects to concatenate`** at backend startup. All of
+   `data/raw/` and `data/processed/` were gitignored, so Render's fresh
+   clone had zero data to load -- `load_results()` found no CSV files at
+   all. Fixed by un-gitignoring everything except StatsBomb's raw
+   event/lineup files (~929MB, and not needed at runtime -- see
+   `features/match_events.py`, added specifically to precompute the small
+   per-match summary the backend needs instead of parsing raw StatsBomb
+   events live per request). See `data/README.md` for the full committed/
+   gitignored breakdown.
+
+Both fixes were verified locally (fresh venv install + full test suite
+for the first; a locally-run backend hitting the same endpoints for the
+second) before being reported as fixed.

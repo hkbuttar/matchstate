@@ -4,8 +4,9 @@ plus lazily-loaded static data artifacts from earlier steps.
 
 Distinction worth being explicit about: these are "production" models,
 fit on the FULL 380-match 2015/16 season -- different from the 285/25
-train/test split used throughout Steps 6-11 for honest evaluation. The
-comparison/calibration/market endpoints serve those steps' already-computed,
+train/test split used throughout models/, calibration/, market/, and
+backtest/ for honest evaluation. The comparison/calibration/market
+endpoints serve those modules' already-computed,
 rigorously held-out-evaluated JSON artifacts unchanged; the trajectory
 endpoints use these full-season models to give the best available live
 prediction for any of the 380 matches, not just the 95 held out for
@@ -21,12 +22,12 @@ import pandas as pd
 from baseline.data import load_results
 from baseline.dixon_coles import DixonColes
 from bayesian.model import HierarchicalDixonColes
-from features.lineups import parse_match
 from models.gbm import prepare_xy, train_gbm
 from possession_value.data import RAW_DIR
 
 PROCESSED_DIR = Path(__file__).parent.parent / "data" / "processed"
 MATCHES_FILE = RAW_DIR / "matches" / "2_27.json"
+MATCH_EVENTS_FILE = PROCESSED_DIR / "match_events_2015_16.json"
 
 
 class AppState:
@@ -35,6 +36,7 @@ class AppState:
     gbm_model: object
     features_df: pd.DataFrame
     match_meta: dict[int, dict]
+    match_events: dict[str, dict]
 
     def load(self):
         print("Fitting production models on full 2015/16 season ...")
@@ -59,6 +61,11 @@ class AppState:
 
         matches = json.load(open(MATCHES_FILE))
         self.match_meta = {m["match_id"]: m for m in matches}
+
+        # precomputed per-match goals/red-cards/subs/formations -- avoids
+        # needing StatsBomb's raw event files (~929MB across 418 matches)
+        # at runtime; see features/match_events.py
+        self.match_events = json.loads(MATCH_EVENTS_FILE.read_text())
 
         print(f"Ready: {self.features_df['match_id'].nunique()} matches available.")
         return self

@@ -1,0 +1,464 @@
+[
+  {
+    "season": "1993/94",
+    "n_train": 346,
+    "n_test": 116,
+    "static_brier": 0.6505786823598074,
+    "static_logloss": 1.0797639820053917,
+    "dynamic_brier": 0.6405951371082163,
+    "dynamic_logloss": 1.0605468349206648,
+    "convergence": {
+      "max_rhat": 1.013557920252155,
+      "min_ess_bulk": 463.30029783374124,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "1994/95",
+    "n_train": 346,
+    "n_test": 116,
+    "static_brier": 0.5992191945636126,
+    "static_logloss": 1.0083484794606417,
+    "dynamic_brier": 0.5925898017846907,
+    "dynamic_logloss": 0.9952519236603916,
+    "convergence": {
+      "max_rhat": 1.007913852305188,
+      "min_ess_bulk": 674.5748627463133,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "1995/96",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.6134135423605823,
+    "static_logloss": 1.0184270731296172,
+    "dynamic_brier": 0.5988142292154955,
+    "dynamic_logloss": 0.997878199698573,
+    "convergence": {
+      "max_rhat": 1.0046886742294958,
+      "min_ess_bulk": 744.0516887810852,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "1996/97",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.6628707184796916,
+    "static_logloss": 1.0909420992648682,
+    "dynamic_brier": 0.6547178463379286,
+    "dynamic_logloss": 1.0818137293677987,
+    "convergence": {
+      "max_rhat": 1.0089927518634716,
+      "min_ess_bulk": 797.7249096976772,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "1997/98",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5943550546644072,
+    "static_logloss": 0.9872916930847209,
+    "dynamic_brier": 0.5915108493522451,
+    "dynamic_logloss": 0.9905854035131992,
+    "convergence": {
+      "max_rhat": 1.0067533885454472,
+      "min_ess_bulk": 980.790092975342,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "1998/99",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.6116522727611496,
+    "static_logloss": 1.0178474055725026,
+    "dynamic_brier": 0.6093523840905889,
+    "dynamic_logloss": 1.017805080466782,
+    "convergence": {
+      "max_rhat": 1.0065173466484338,
+      "min_ess_bulk": 663.2609944621485,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "1999/00",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5851674895779106,
+    "static_logloss": 0.9832143718503672,
+    "dynamic_brier": 0.5963005863337395,
+    "dynamic_logloss": 0.9963564092231522,
+    "convergence": {
+      "max_rhat": 1.0050174236234612,
+      "min_ess_bulk": 702.3349250772092,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2000/01",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5996557331726885,
+    "static_logloss": 1.0266453314621669,
+    "dynamic_brier": 0.5942246400679152,
+    "dynamic_logloss": 1.0007310790524775,
+    "convergence": {
+      "max_rhat": 1.0094853526479377,
+      "min_ess_bulk": 885.4127551594343,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2001/02",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5544715675170035,
+    "static_logloss": 0.9374821186728683,
+    "dynamic_brier": 0.5594542213499553,
+    "dynamic_logloss": 0.9481284357486427,
+    "convergence": {
+      "max_rhat": 1.0054340377269761,
+      "min_ess_bulk": 951.6050536290824,
+      "n_divergent": 1
+    }
+  },
+  {
+    "season": "2002/03",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5793190537904316,
+    "static_logloss": 0.9719321472604859,
+    "dynamic_brier": 0.5926613884172162,
+    "dynamic_logloss": 0.9949778399222429,
+    "convergence": {
+      "max_rhat": 1.006536979617294,
+      "min_ess_bulk": 1023.9151180793654,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2003/04",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.6577131965987363,
+    "static_logloss": 1.0685671752573682,
+    "dynamic_brier": 0.6393347169241077,
+    "dynamic_logloss": 1.05056903897971,
+    "convergence": {
+      "max_rhat": 1.0077954209966498,
+      "min_ess_bulk": 807.5682334153814,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2004/05",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.6115566642758326,
+    "static_logloss": 1.0059050361154092,
+    "dynamic_brier": 0.6043487708384745,
+    "dynamic_logloss": 1.0006138641403695,
+    "convergence": {
+      "max_rhat": 1.006531377967085,
+      "min_ess_bulk": 670.5814356397347,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2005/06",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5755162014395495,
+    "static_logloss": 0.9661730919505347,
+    "dynamic_brier": 0.5732458013250924,
+    "dynamic_logloss": 0.9617579936734568,
+    "convergence": {
+      "max_rhat": 1.0089187197767913,
+      "min_ess_bulk": 640.3840774380053,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2006/07",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.649178839225791,
+    "static_logloss": 1.102244111737925,
+    "dynamic_brier": 0.644723182387587,
+    "dynamic_logloss": 1.0875389102095137,
+    "convergence": {
+      "max_rhat": 1.0053250043980366,
+      "min_ess_bulk": 738.9934054358254,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2007/08",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.593782770932666,
+    "static_logloss": 0.984602133551558,
+    "dynamic_brier": 0.591287976210104,
+    "dynamic_logloss": 0.9862825245084846,
+    "convergence": {
+      "max_rhat": 1.0134184647859537,
+      "min_ess_bulk": 484.6499911019011,
+      "n_divergent": 1
+    }
+  },
+  {
+    "season": "2008/09",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.511796327742624,
+    "static_logloss": 0.8787240867768761,
+    "dynamic_brier": 0.5296752076590397,
+    "dynamic_logloss": 0.9072421121082587,
+    "convergence": {
+      "max_rhat": 1.0056771213391633,
+      "min_ess_bulk": 745.7901215175349,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2009/10",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5499318980653136,
+    "static_logloss": 0.9257135858941611,
+    "dynamic_brier": 0.5451375990981113,
+    "dynamic_logloss": 0.9214310865421023,
+    "convergence": {
+      "max_rhat": 1.0061402490636813,
+      "min_ess_bulk": 681.6693119049911,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2010/11",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.6271402015275868,
+    "static_logloss": 1.0398229714555542,
+    "dynamic_brier": 0.61534854618192,
+    "dynamic_logloss": 1.0255927234314886,
+    "convergence": {
+      "max_rhat": 1.0063373503789863,
+      "min_ess_bulk": 672.603555585653,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2011/12",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.61086344321073,
+    "static_logloss": 1.0322524685304684,
+    "dynamic_brier": 0.6009463653052611,
+    "dynamic_logloss": 1.0063281295512814,
+    "convergence": {
+      "max_rhat": 1.005368588007537,
+      "min_ess_bulk": 819.4004002112313,
+      "n_divergent": 1
+    }
+  },
+  {
+    "season": "2012/13",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5792750171968929,
+    "static_logloss": 0.9762527705830033,
+    "dynamic_brier": 0.5933185894632219,
+    "dynamic_logloss": 0.9957861027774833,
+    "convergence": {
+      "max_rhat": 1.0069849218676306,
+      "min_ess_bulk": 762.3479744877843,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2013/14",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5373123748272787,
+    "static_logloss": 0.9326554746274263,
+    "dynamic_brier": 0.543669317256859,
+    "dynamic_logloss": 0.931436705423325,
+    "convergence": {
+      "max_rhat": 1.0048761024267505,
+      "min_ess_bulk": 730.2231507669524,
+      "n_divergent": 1
+    }
+  },
+  {
+    "season": "2014/15",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.602681905308973,
+    "static_logloss": 1.0164641638856549,
+    "dynamic_brier": 0.5957845654802284,
+    "dynamic_logloss": 1.0032690231054993,
+    "convergence": {
+      "max_rhat": 1.0099208710365115,
+      "min_ess_bulk": 858.8004881747587,
+      "n_divergent": 1
+    }
+  },
+  {
+    "season": "2015/16",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5862552205580015,
+    "static_logloss": 0.9824810187381536,
+    "dynamic_brier": 0.5895946648855176,
+    "dynamic_logloss": 0.99038543842945,
+    "convergence": {
+      "max_rhat": 1.0059441835813068,
+      "min_ess_bulk": 629.8111655642823,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2016/17",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5081274286425452,
+    "static_logloss": 0.8684939409035259,
+    "dynamic_brier": 0.5229884019747287,
+    "dynamic_logloss": 0.8914843722100111,
+    "convergence": {
+      "max_rhat": 1.0039193322089965,
+      "min_ess_bulk": 844.1637556695168,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2017/18",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5753840163433006,
+    "static_logloss": 0.9785155257980446,
+    "dynamic_brier": 0.5686623602667623,
+    "dynamic_logloss": 0.9618420565593894,
+    "convergence": {
+      "max_rhat": 1.0068625401120508,
+      "min_ess_bulk": 654.1937532965734,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2018/19",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5273711840243589,
+    "static_logloss": 0.8982588896043124,
+    "dynamic_brier": 0.5256239134326249,
+    "dynamic_logloss": 0.8958218010860375,
+    "convergence": {
+      "max_rhat": 1.0055489799348476,
+      "min_ess_bulk": 1208.6328997744683,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2019/20",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.577124263225665,
+    "static_logloss": 0.9646636203693888,
+    "dynamic_brier": 0.5686543075004226,
+    "dynamic_logloss": 0.9552270564656841,
+    "convergence": {
+      "max_rhat": 1.0059218418193119,
+      "min_ess_bulk": 804.2799303772063,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2020/21",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.6068401025952097,
+    "static_logloss": 1.0300635501760087,
+    "dynamic_brier": 0.6085642858339448,
+    "dynamic_logloss": 1.0251167360782272,
+    "convergence": {
+      "max_rhat": 1.0068890487920135,
+      "min_ess_bulk": 719.1570522687539,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2021/22",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5796950942859821,
+    "static_logloss": 0.9747256733491929,
+    "dynamic_brier": 0.5716779035633123,
+    "dynamic_logloss": 0.9634930558981065,
+    "convergence": {
+      "max_rhat": 1.009285085213274,
+      "min_ess_bulk": 694.5407069055303,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2022/23",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5611373900121159,
+    "static_logloss": 0.9512658596445711,
+    "dynamic_brier": 0.5634581637342457,
+    "dynamic_logloss": 0.9534724074273779,
+    "convergence": {
+      "max_rhat": 1.004428904762486,
+      "min_ess_bulk": 781.5778889001493,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2023/24",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5422780475975596,
+    "static_logloss": 0.9211720787907518,
+    "dynamic_brier": 0.5545743917107484,
+    "dynamic_logloss": 0.9401916110659857,
+    "convergence": {
+      "max_rhat": 1.0065676412814986,
+      "min_ess_bulk": 783.4168011941017,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2024/25",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.5943375813228272,
+    "static_logloss": 0.9902131141239711,
+    "dynamic_brier": 0.5888409930284174,
+    "dynamic_logloss": 0.9820213039936998,
+    "convergence": {
+      "max_rhat": 1.0066118131997335,
+      "min_ess_bulk": 562.555550498932,
+      "n_divergent": 0
+    }
+  },
+  {
+    "season": "2025/26",
+    "n_train": 285,
+    "n_test": 95,
+    "static_brier": 0.6321486190998115,
+    "static_logloss": 1.0590259347065982,
+    "dynamic_brier": 0.6273197430416525,
+    "dynamic_logloss": 1.0473554743153366,
+    "convergence": {
+      "max_rhat": 1.0078928975526773,
+      "min_ess_bulk": 844.1277582494058,
+      "n_divergent": 0
+    }
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "model": "Static Dixon-Coles",
+    "brier": 0.29784766738794444,
+    "logloss": 0.5136912926999118
+  },
+  {
+    "model": "Hierarchical Bayesian",
+    "brier": 0.2922517203506056,
+    "logloss": 0.5140771988738825
+  },
+  {
+    "model": "Gradient Boosting",
+    "brier": 0.3110170545302521,
+    "logloss": 0.5716428170547188
+  }
+]

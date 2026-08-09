@@ -1,0 +1,64 @@
+{
+  "per_model_ci": {
+    "market": {
+      "point": 0.43199554538243845,
+      "ci_lo": 0.36366821756051726,
+      "ci_hi": 0.5033556675968474
+    },
+    "static": {
+      "point": 0.43837125021580586,
+      "ci_lo": 0.3704635972594573,
+      "ci_hi": 0.5118825308720484
+    },
+    "bayesian": {
+      "point": 0.43460198746713413,
+      "ci_lo": 0.36953317959810916,
+      "ci_hi": 0.5040876991139588
+    },
+    "gbm": {
+      "point": 0.4612877355077256,
+      "ci_lo": 0.4050404259291528,
+      "ci_hi": 0.522596918694581
+    }
+  },
+  "pairwise_diffs": {
+    "bayesian_minus_static": {
+      "point_diff": -0.003769262748671731,
+      "ci_lo": -0.01292074051881158,
+      "ci_hi": 0.005696060383641991,
+      "significant_at_95": false
+    },
+    "gbm_minus_static": {
+      "point_diff": 0.022916485291919753,
+      "ci_lo": -0.004129950160828274,
+      "ci_hi": 0.05142467290285007,
+      "significant_at_95": false
+    },
+    "gbm_minus_bayesian": {
+      "point_diff": 0.026685748040591484,
+      "ci_lo": 0.00530617917205224,
+      "ci_hi": 0.048281256085141465,
+      "significant_at_95": true
+    },
+    "market_minus_bayesian": {
+      "point_diff": -0.0026064420846956815,
+      "ci_lo": -0.016473320233143546,
+      "ci_hi": 0.012396162853997536,
+      "significant_at_95": false
+    },
+    "market_minus_static": {
+      "point_diff": -0.006375704833367413,
+      "ci_lo": -0.021031250833325087,
+      "ci_hi": 0.008774297983010635,
+      "significant_at_95": false
+    },
+    "market_minus_gbm": {
+      "point_diff": -0.029292190125287165,
+      "ci_lo": -0.05580354649313975,
+      "ci_hi": -0.002372029337586202,
+      "significant_at_95": true
+    }
+  },
+  "n_boot": 2000,
+  "n_matches": 95
+}

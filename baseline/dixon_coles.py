@@ -159,8 +159,9 @@ class DixonColes:
         the closing minutes of matches; this constant-rate assumption is
         the transparent, analytically simple choice for this baseline, and
         exactly the kind of simplification the state-aware models in
-        Steps 4-6 are meant to improve on. The same tau low-score
-        correction is re-applied to the remaining-goals distribution.
+        possession_value/ and models/ are meant to improve on. The same
+        tau low-score correction is re-applied to the remaining-goals
+        distribution.
         """
         remaining_frac = max(0.0, (match_length - minute) / match_length)
         lam, mu = self._rates(home_team, away_team)

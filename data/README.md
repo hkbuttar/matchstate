@@ -5,9 +5,21 @@ importantly — the hard coverage limits of each source. These constraints
 shape what every model built on top of this data can and can't claim; they
 are not bugs to "fix" later.
 
-All raw data lives under `data/raw/` and is gitignored (large,
-re-downloadable, and in StatsBomb's case licensed for non-redistribution —
-see below). Re-run the scripts in this directory to repopulate it.
+**What's committed vs. gitignored, and why:** only StatsBomb's raw
+event/lineup files (`data/raw/statsbomb/events/`, `.../lineups/`) are
+gitignored -- ~929MB across 418 matches, not needed at runtime (see
+`features/match_events.py`, which precomputes the small per-match summary
+the backend actually serves), and StatsBomb's open-data license asks that
+the raw files not be redistributed as a bare mirror. Re-download locally
+via `download_statsbomb.py`. Everything else here -- the football-data.co.uk
+CSVs, the StatsBomb match index, and all of `data/processed/` -- is small
+(~18MB total) and **is committed**: the deployed backend reads it
+directly at startup and request time and has no way to regenerate it
+itself (no build step re-runs the data pipeline). This wasn't the
+original design -- these were gitignored by default until a real Render
+deploy failed with `ValueError: No objects to concatenate` because the
+backend found no data at all; see `backend/state.py`'s and
+`backend/routers/matches.py`'s comments for the runtime side of this.
 
 ## 1. football-data.co.uk — results & closing odds
 

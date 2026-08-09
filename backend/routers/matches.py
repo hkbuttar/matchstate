@@ -5,8 +5,6 @@ from fastapi import APIRouter, HTTPException
 from backend.schemas import BigMoment, MatchDetail, MatchEvent, MatchSummary, MatchTrajectory, TrajectoryPoint
 from backend.state import state
 from data.team_names import to_football_data
-from features.lineups import parse_match
-from features.state import _goal_events
 from models.gbm import predict_proba_dicts
 
 router = APIRouter(prefix="/matches", tags=["matches"])
@@ -39,15 +37,22 @@ def _match_row(match_id: int):
     return df
 
 
+def _match_events(match_id: int) -> dict:
+    parsed = state.match_events.get(str(match_id))
+    if parsed is None:
+        raise HTTPException(404, f"match_id {match_id} not found")
+    return parsed
+
+
 @router.get("/{match_id}", response_model=MatchDetail)
 def match_detail(match_id: int):
     df = _match_row(match_id)
     first = df.iloc[0]
     meta = state.match_meta.get(match_id, {})
-    parsed = parse_match(match_id)
+    parsed = _match_events(match_id)
 
     events: list[MatchEvent] = []
-    for g in _goal_events(match_id):
+    for g in parsed["goals"]:
         events.append(MatchEvent(minute=g["minute"], kind="goal", team=g["team"], description=f"Goal, {g['team']}"))
     for r in parsed["red_cards"]:
         events.append(MatchEvent(
@@ -103,8 +108,8 @@ def match_trajectory(match_id: int):
 def match_big_moments(match_id: int, n: int = 5):
     traj = match_trajectory(match_id)
     home = traj.home_team
-    parsed = parse_match(match_id)
-    goals = _goal_events(match_id)
+    parsed = _match_events(match_id)
+    goals = parsed["goals"]
 
     def annotate(minute: int) -> str:
         tags = []

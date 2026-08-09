@@ -13,9 +13,10 @@ StatsBomb's free open data covers men's EPL for only two seasons:
     introducing severe team bias -- kept for spot-checks / Arsenal-specific
     analysis only, excluded from the possession-value / in-game training set.
 
-Net effect: Steps 4-6 (possession-value model, lineup-aware features,
-gradient-boosting win-probability model) have a hard ceiling of ~380 usable
-matches of event-level training data, all from a single season. This is
+Net effect: possession_value/, features/, and models/ (possession-value
+model, lineup-aware features, gradient-boosting win-probability model)
+have a hard ceiling of ~380 usable matches of event-level training data,
+all from a single season. This is
 disclosed explicitly in data/README.md and again in the main README's
 Limitations section -- it is not a bug to fix later, it is a real
 constraint of the free data source.

@@ -6,12 +6,17 @@ __pycache__/
 *.egg-info/
 .env
 
-# Raw/processed data: large, re-downloadable, and StatsBomb's license
-# requires it not be redistributed as a bare mirror. See data/README.md.
-data/raw/
-data/processed/
-!data/raw/.gitkeep
-!data/processed/.gitkeep
+# Only StatsBomb's raw event/lineup files stay out of git: ~929MB across
+# 418 matches, not needed at runtime (features/match_events.py precomputes
+# the small per-match summary the backend actually serves), and StatsBomb's
+# open-data license asks that the raw files not be redistributed as a bare
+# mirror. Re-download locally via data/download_statsbomb.py. Everything
+# else under data/ (football-data.co.uk CSVs, the StatsBomb match index,
+# and all of data/processed/) is small (~18MB total) and IS committed --
+# the deployed backend reads it directly at startup/request time and has
+# no way to regenerate it itself. See data/README.md.
+data/raw/statsbomb/events/
+data/raw/statsbomb/lineups/
 
 .DS_Store
 node_modules/
