@@ -155,3 +155,36 @@ class HierarchicalDixonColes:
             "lambda": float(lam),
             "mu": float(mu),
         }
+
+    def in_game_probabilities(
+        self,
+        home_team: str,
+        away_team: str,
+        minute: float,
+        home_goals: int,
+        away_goals: int,
+        match_length: float = 90.0,
+        max_goals: int = 10,
+    ) -> dict:
+        """Score-conditional win/draw/loss probability, mirroring
+        baseline.dixon_coles.DixonColes.in_game_probabilities: remaining
+        goals scaled by time left, using this model's latest (most
+        recent-period) strength estimate rather than a fixed season-long
+        one. No tau low-score correction (see module docstring)."""
+        remaining_frac = max(0.0, (match_length - minute) / match_length)
+        s = self.latest_strength()
+        lam = np.exp(s["attack"][home_team] + s["defense"][away_team] + s["home_adv"])
+        mu = np.exp(s["attack"][away_team] + s["defense"][home_team])
+        lam_rem, mu_rem = lam * remaining_frac, mu * remaining_frac
+
+        g = np.arange(max_goals + 1)
+        matrix = np.outer(poisson.pmf(g, lam_rem), poisson.pmf(g, mu_rem))
+        matrix /= matrix.sum()
+
+        final_home = home_goals + g[:, None]
+        final_away = away_goals + g[None, :]
+        return {
+            "home_win": float(matrix[final_home > final_away].sum()),
+            "draw": float(matrix[final_home == final_away].sum()),
+            "away_win": float(matrix[final_home < final_away].sum()),
+        }
