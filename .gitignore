@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+*.egg-info/
+.env
+
+# Raw/processed data: large, re-downloadable, and StatsBomb's license
+# requires it not be redistributed as a bare mirror. See data/README.md.
+data/raw/
+data/processed/
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+.DS_Store
+node_modules/
