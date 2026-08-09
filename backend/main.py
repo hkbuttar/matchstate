@@ -9,6 +9,7 @@ request would make every trajectory request slow for no benefit, since
 nothing about the fitted parameters depends on the request.
 """
 
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -31,9 +32,18 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# CORS_ORIGINS: comma-separated list, e.g. "https://matchstate.vercel.app".
+# Defaults to "*" for local development; every endpoint here is read-only
+# public sports data (no auth, no user data), so a wildcard is a defensible
+# default even so -- but production deployments should still set this to
+# the actual frontend origin, both as least-privilege practice and because
+# a wildcard origin cannot be combined with credentialed requests.
+_origins_env = os.environ.get("CORS_ORIGINS", "*")
+_allow_origins = ["*"] if _origins_env == "*" else [o.strip() for o in _origins_env.split(",")]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # demo project scope; tighten before any real deployment
+    allow_origins=_allow_origins,
     allow_methods=["GET"],
     allow_headers=["*"],
 )

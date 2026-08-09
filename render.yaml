@@ -1,0 +1,31 @@
+# Render Blueprint for the MatchState backend (Step 13's FastAPI app).
+# Deploy: connect this repo in the Render dashboard and it will detect this
+# file automatically ("New +" -> "Blueprint"), or apply it manually.
+#
+# Real constraints worth knowing before deploying, not discovered after:
+# - Startup fits three models (Dixon-Coles, Bayesian via NUTS, GBM) on the
+#   full season, taking ~15-20s. FastAPI's lifespan blocks the app from
+#   accepting ANY request -- including Render's health check -- until this
+#   finishes, so the first deploy will sit at "not ready" for that long.
+#   This is expected, not a hang.
+# - On Render's free tier, the service spins down after 15 minutes of
+#   inactivity; the next request pays the full cold-start cost again (model
+#   refit + container boot). Fine for a portfolio demo, not for anything
+#   latency-sensitive -- upgrade to an always-on plan if that matters.
+# - The pymc/numba/xgboost/pandas stack's memory footprint hasn't been
+#   measured against Render's free-tier RAM limit -- if the service crashes
+#   on boot rather than serving, that's the first thing to check.
+
+services:
+  - type: web
+    name: matchstate-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.13
+      - key: CORS_ORIGINS
+        sync: false # set to the deployed Vercel frontend URL after that's known
