@@ -53,7 +53,7 @@ def evaluate_model(name: str, cal_probs: np.ndarray, cal_actual: np.ndarray, tes
 
 
 def main():
-    predictions = build_splits_and_predictions()
+    predictions, _splits = build_splits_and_predictions()
     all_results = []
     for name in ["static", "bayesian", "gbm"]:
         print(f"\n=== {name} ===")

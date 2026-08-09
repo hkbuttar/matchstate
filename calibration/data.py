@@ -45,11 +45,20 @@ def probs_to_matrix(probs: list[dict]) -> np.ndarray:
 
 
 def build_splits_and_predictions():
+    """Returns (predictions, splits) where splits['cal']/['test'] are the
+    exact DataFrames (row-order-aligned, index reset) that
+    predictions['cal']/['test'][...] were computed from -- callers that
+    need match_id/minute alongside the probabilities (e.g. market/compare.py)
+    should use these rather than reconstructing the split themselves,
+    since match_level_split's row order isn't guaranteed stable across
+    separate calls/contexts."""
     features = pd.read_parquet(FEATURES_PATH)
     match_dates = _match_dates()
     train_df, test_df = match_level_split(features, match_dates, train_frac=0.75)
+    test_df = test_df.reset_index(drop=True)
     train_match_dates = {mid: d for mid, d in match_dates.items() if mid in set(train_df["match_id"])}
     fit_df, cal_df = match_level_split(train_df, train_match_dates, train_frac=0.85)
+    cal_df = cal_df.reset_index(drop=True)
 
     print(f"fit: {fit_df['match_id'].nunique()} matches | calibration: {cal_df['match_id'].nunique()} matches | "
           f"test: {test_df['match_id'].nunique()} matches")
@@ -77,4 +86,4 @@ def build_splits_and_predictions():
             "actual": df["final_result"].map(RESULT_TO_CLASS).to_numpy(),
         }
 
-    return predictions
+    return predictions, {"cal": cal_df, "test": test_df}
