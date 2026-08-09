@@ -14,6 +14,9 @@ fastapi>=0.110
 uvicorn[standard]>=0.27
 pydantic>=2.6
 
+# Columnar storage (event-level data)
+pyarrow>=15.0
+
 # Data acquisition
 requests>=2.31
 httpx>=0.27
