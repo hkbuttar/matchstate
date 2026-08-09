@@ -94,3 +94,43 @@ post-hoc-tuned "win."
 `data/processed/step6_comparison.json` -- summary metrics. Full
 per-model prediction code is in `models/gbm.py` (feature prep, training)
 and `models/compare.py` (the three-way evaluation).
+
+---
+
+# Step 7: Big-Moment Detection (`models/big_moments.py`)
+
+Flags the largest win-probability swings per match (total variation
+distance between consecutive minutes' [home/draw/away] vectors) and
+cross-references them against real goals/red cards/subs -- both a
+demo-able feature and a genuine sanity check on whether the models react
+sensibly to known-impactful events.
+
+## A testable hypothesis, not an assumption
+
+Dixon-Coles and the Bayesian model only ever see score and time -- they
+have no red-card input at all. The prediction: they should show almost no
+reaction to a sending-off unless/until a goal follows, while gradient
+boosting (which has `red_cards_diff` as a feature) should react directly.
+Checked this explicitly rather than asserting it.
+
+**Concrete example** (Crystal Palace 0-0 Everton, test set): Everton's
+James McCarthy picks up a second yellow at minute 51.
+- GBM swing = **0.505** (P(home win) jumps 0.30 -> 0.81 -- correctly
+  reflecting that Crystal Palace, now facing 10 men, are much likelier to
+  win)
+- Static Dixon-Coles swing = **0.006** (essentially flat -- it has no way
+  to know a man went off)
+
+**Aggregate, not just one anecdote:** across all 16 red cards in the 95
+held-out test matches, mean swing at the red-card minute was **0.157**
+for GBM vs. **0.0049** for static Dixon-Coles -- confirming this is a
+systematic, structural blind spot in the Poisson-family models, not a
+one-off. This is one of Step 6's real findings made concrete: even though
+gradient boosting loses on aggregate Brier score, it captures information
+(red cards, momentum) the baselines are structurally incapable of using
+at all.
+
+**Goals are a positive control, and both models pass it:** e.g. Watford's
+89th-minute goal against Aston Villa produces a swing of 0.750 (GBM) and
+0.962 (static DC) -- both react strongly, as expected, since score is an
+input to every model in this project.
