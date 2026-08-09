@@ -4,9 +4,15 @@
 
 - **`backend/state.py`** fits "production" static Dixon-Coles, hierarchical
   Bayesian, and gradient boosting models on the **full 380-match** 2015/16
-  season at startup (kept in memory -- NUTS sampling takes ~6s, done once,
-  not per request). These power the live trajectory/big-moments endpoints
-  for any of the 380 matches.
+  season, kept in memory, not per request. Fitting happens in a **background
+  thread** kicked off from the lifespan rather than awaited synchronously
+  there -- a real deploy failure on Render (port-scan timeout) traced
+  directly to uvicorn not binding its port until lifespan startup returns;
+  see `backend/state.py`'s module docstring and `render.yaml`'s comments
+  for the full story. `GET /health` reports `503 {"status": "starting"}`
+  while fitting is in progress and `200 {"status": "ok", ...}` once ready;
+  any route touching the fitted models returns a clean `503` (not a crash)
+  if hit during that window.
 - **`backend/routers/results.py`** serves the already-computed JSON
   artifacts from `bayesian/`, `models/`, `calibration/`, `market/`, and
   `backtest/` verbatim -- those came from the
@@ -20,7 +26,7 @@
 
 | Endpoint | Returns |
 |---|---|
-| `GET /health` | Liveness + matches-loaded count |
+| `GET /health` | `503` while starting, `500` if loading failed, else `200` + matches-loaded count |
 | `GET /matches` | All 380 matches: teams, date, final score |
 | `GET /matches/{id}` | Match detail + full event timeline (goals, red cards, subs) |
 | `GET /matches/{id}/trajectory` | Per-minute win probability from all 3 production models |
