@@ -3,16 +3,19 @@ FastAPI backend. Serves match state, live in-game win
 probability trajectories, big-moment detection, and the held-out
 evaluation results from bayesian/, models/, calibration/, market/, and backtest/.
 
-Models are fit once at startup (lifespan context) and kept in memory --
-NUTS sampling for the Bayesian model takes a few seconds; refitting per
-request would make every trajectory request slow for no benefit, since
-nothing about the fitted parameters depends on the request.
+Models are fit once, kept in memory, and loaded in a BACKGROUND THREAD
+kicked off from the lifespan startup rather than awaited synchronously
+there -- see backend/state.py's module docstring for why: uvicorn doesn't
+bind its port until lifespan startup returns, so a slow synchronous fit
+(cold-cache NUTS sampling on a fresh container) can exceed a deploy
+platform's port-scan timeout before the process ever looks alive. This
+was an actual failed Render deploy, not a hypothetical.
 """
 
 import os
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.routers import matches, results, seasons
@@ -21,7 +24,7 @@ from backend.state import state
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    state.load()
+    state.load_in_background()
     yield
 
 
@@ -54,5 +57,11 @@ app.include_router(seasons.router)
 
 
 @app.get("/health")
-def health():
-    return {"status": "ok", "matches_loaded": int(state.features_df["match_id"].nunique()) if hasattr(state, "features_df") else 0}
+def health(response: Response):
+    if state.error is not None:
+        response.status_code = 500
+        return {"status": "error", "detail": state.error}
+    if not state.ready:
+        response.status_code = 503
+        return {"status": "starting"}
+    return {"status": "ok", "matches_loaded": int(state.features_df["match_id"].nunique())}

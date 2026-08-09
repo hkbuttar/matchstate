@@ -9,7 +9,7 @@ from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 
-from backend.state import state
+from backend.state import ensure_ready, state
 
 router = APIRouter(prefix="/seasons", tags=["seasons"])
 PARAMS_DIR = Path(__file__).parent.parent.parent / "data" / "processed" / "dixon_coles"
@@ -43,4 +43,5 @@ def bayesian_trajectory():
     (partially-pooled random walk over 8 periods) for the one season
     with a production Bayesian fit. Long-format rows: team, period,
     attack, defense."""
+    ensure_ready()
     return state.bayesian_model.strength_trajectory().to_dict(orient="records")

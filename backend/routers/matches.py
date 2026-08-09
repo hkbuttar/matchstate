@@ -3,7 +3,7 @@ import pandas as pd
 from fastapi import APIRouter, HTTPException
 
 from backend.schemas import BigMoment, MatchDetail, MatchEvent, MatchSummary, MatchTrajectory, TrajectoryPoint
-from backend.state import state
+from backend.state import ensure_ready, state
 from data.team_names import to_football_data
 from models.gbm import predict_proba_dicts
 
@@ -12,6 +12,7 @@ router = APIRouter(prefix="/matches", tags=["matches"])
 
 @router.get("", response_model=list[MatchSummary])
 def list_matches():
+    ensure_ready()
     df = state.features_df.drop_duplicates("match_id").sort_values("match_id")
     out = []
     for r in df.itertuples():
@@ -46,6 +47,7 @@ def _match_events(match_id: int) -> dict:
 
 @router.get("/{match_id}", response_model=MatchDetail)
 def match_detail(match_id: int):
+    ensure_ready()
     df = _match_row(match_id)
     first = df.iloc[0]
     meta = state.match_meta.get(match_id, {})
@@ -82,6 +84,7 @@ def match_detail(match_id: int):
 
 @router.get("/{match_id}/trajectory", response_model=MatchTrajectory)
 def match_trajectory(match_id: int):
+    ensure_ready()
     df = _match_row(match_id).sort_values("minute").reset_index(drop=True)
     home, away = df["home_team"].iloc[0], df["away_team"].iloc[0]
     home_fd, away_fd = to_football_data(home), to_football_data(away)
