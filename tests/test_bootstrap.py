@@ -1,10 +1,10 @@
 """
-Step 12: block bootstrap procedure validation.
+Block bootstrap procedure validation.
 
 Three checks: (1) does resampling by match actually produce wider,
 more honest confidence intervals than naively resampling by row, on data
 constructed to have strong within-match correlation -- this is the whole
-reason Step 10 uses match blocks instead of row-level bootstrap; (2) does
+reason backtest/ uses match blocks instead of row-level bootstrap; (2) does
 a real, planted difference between two synthetic models get correctly
 flagged as significant; (3) approximate coverage -- across many
 repeated synthetic experiments with a known true Brier score, does the
@@ -20,8 +20,8 @@ def _make_correlated_matches(n_matches: int, rows_per_match: int, true_brier: fl
     """Each match gets ONE noisy per-match squared-error value, repeated
     across all its rows (strong within-match correlation, zero
     within-match noise) -- rows are NOT independent, which is exactly
-    the structure Step 8/9's per-minute data has (all rows in a match
-    share the match's outcome)."""
+    the structure calibration/'s and market/'s per-minute data has (all
+    rows in a match share the match's outcome)."""
     rng = np.random.default_rng(seed)
     match_ids = np.repeat(np.arange(n_matches), rows_per_match)
     per_match_value = np.clip(rng.normal(true_brier, 0.15, n_matches), 0, 1)
@@ -30,8 +30,8 @@ def _make_correlated_matches(n_matches: int, rows_per_match: int, true_brier: fl
 
 
 def test_block_bootstrap_is_wider_than_naive_row_bootstrap():
-    """The core justification for match-blocking (Step 8/10's design
-    choice): on data with strong within-match correlation, a naive
+    """The core justification for match-blocking (calibration/'s and
+    backtest/'s design choice): on data with strong within-match correlation, a naive
     row-level bootstrap should understate uncertainty relative to a
     proper match-block bootstrap."""
     match_ids, values = _make_correlated_matches(n_matches=50, rows_per_match=90, true_brier=0.5, seed=42)

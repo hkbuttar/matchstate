@@ -1,4 +1,4 @@
-# Step 13: Backend (FastAPI)
+# Backend (FastAPI)
 
 ## Two separate code paths, deliberately kept apart
 
@@ -8,7 +8,8 @@
   not per request). These power the live trajectory/big-moments endpoints
   for any of the 380 matches.
 - **`backend/routers/results.py`** serves the already-computed JSON
-  artifacts from Steps 3/6/8/9/10/11 verbatim -- those came from the
+  artifacts from `bayesian/`, `models/`, `calibration/`, `market/`, and
+  `backtest/` verbatim -- those came from the
   285/95 train/test split used specifically for honest, held-out
   evaluation. Mixing the two (e.g. serving "live" predictions as if they
   were the evaluated numbers) would misrepresent the evaluation, so
@@ -23,8 +24,8 @@
 | `GET /matches` | All 380 matches: teams, date, final score |
 | `GET /matches/{id}` | Match detail + full event timeline (goals, red cards, subs) |
 | `GET /matches/{id}/trajectory` | Per-minute win probability from all 3 production models |
-| `GET /matches/{id}/big-moments` | Top win-probability swings (Step 7), with event annotations |
-| `GET /seasons` | Step 2's fitted home-advantage/rho summary, all 33 seasons |
+| `GET /matches/{id}/big-moments` | Top win-probability swings, with event annotations |
+| `GET /seasons` | `baseline/`'s fitted home-advantage/rho summary, all 33 seasons |
 | `GET /seasons/{season}` | Full per-team attack/defense for one season |
 | `GET /results` | Index of available evaluation result sets |
 | `GET /results/{name}` | One of: `bayesian-seasons`, `gbm-comparison`, `calibration`, `market-comparison`, `ingame-bootstrap`, `season-walkforward`, `final-comparison` |
@@ -35,9 +36,9 @@ Interactive docs at `/docs` (FastAPI's auto-generated OpenAPI UI).
 
 Ran the server locally and exercised every endpoint against real match
 data. Worth noting: `/matches/3754217/trajectory` (Chelsea 2-0 Arsenal,
-the match with two Arsenal red cards used throughout Steps 5-7)
-**live-reproduces Step 7's headline finding through the actual API** --
-at minute 45, right after Gabriel's red card, `gbm_home_win` jumps to
+the match with two Arsenal red cards used throughout `features/` and
+`models/`) **live-reproduces the big-moment detection headline finding
+through the actual API** -- at minute 45, right after Gabriel's red card, `gbm_home_win` jumps to
 0.82 while `static_home_win` barely moves (0.26 -> 0.26). Confirms the
 API is correctly wired to real model behavior, not just returning
 plausible-looking numbers.

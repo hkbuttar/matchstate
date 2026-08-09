@@ -1,8 +1,8 @@
 """
 Fit a separate, fixed Dixon-Coles model per EPL season and save the
 parameters as JSON. Static per-season strengths are the deliberate scope
-of this baseline (Step 2); bayesian/ (Step 3) extends this to strengths
-that evolve within a season.
+of this baseline; bayesian/ extends this to strengths that evolve within
+a season.
 """
 
 import json

@@ -1,9 +1,9 @@
-# Step 14: Frontend
+# Frontend
 
-Next.js 16 (App Router, TypeScript, Tailwind), talking to the Step 13 FastAPI
-backend. Framework choice ("React + Vite" vs. "Next.js" vs. "Svelte" vs.
-plain HTML/JS) was made explicitly by the user rather than assumed, since
-the plan called for a deliberate choice.
+Next.js 16 (App Router, TypeScript, Tailwind), talking to the FastAPI
+backend (`backend/`). Framework choice ("React + Vite" vs. "Next.js" vs.
+"Svelte" vs. plain HTML/JS) was made explicitly by the user rather than
+assumed, since the plan called for a deliberate choice.
 
 ## Views
 
@@ -12,15 +12,15 @@ the plan called for a deliberate choice.
 | `/` | Overview: headline stats, links to the other views |
 | `/matches` | All 380 matches, sortable table |
 | `/matches/[id]` | Live per-minute win-probability trajectory (all 3 models) with goal/red-card annotations, plus the full event timeline |
-| `/calibration` | Reliability diagrams per outcome class (raw vs. isotonic), reusing Step 8's actual generated PNGs |
-| `/market` | Model-vs-market Brier score, pre-match and in-game, with Step 10's bootstrap confidence intervals and pairwise significance |
+| `/calibration` | Reliability diagrams per outcome class (raw vs. isotonic), reusing `calibration/`'s actual generated PNGs |
+| `/market` | Model-vs-market Brier score, pre-match and in-game, with `backtest/`'s bootstrap confidence intervals and pairwise significance |
 | `/seasons` | Home advantage across all 33 seasons + within-season Bayesian team-strength evolution for 2015/16 |
 
 The `/seasons/2015-16/bayesian-trajectory` backend endpoint didn't exist
-before this step -- added it (`backend/routers/seasons.py`) since the plan
-specifically asks for "hierarchical team-strength evolution over a season,"
-which needs the Bayesian model's within-season trajectory, not Step 2's
-static per-season summary that was already exposed.
+before this frontend was built -- added it (`backend/routers/seasons.py`)
+since the plan specifically asks for "hierarchical team-strength evolution
+over a season," which needs the Bayesian model's within-season trajectory,
+not `baseline/`'s static per-season summary that was already exposed.
 
 ## Design: the `dataviz` skill, applied and validated against real bugs
 

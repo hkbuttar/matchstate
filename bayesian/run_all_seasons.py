@@ -1,5 +1,5 @@
 """
-Run the Step 3 static-vs-dynamic comparison (see bayesian/evaluate.py)
+Run the static-vs-dynamic comparison (see bayesian/evaluate.py)
 across every complete EPL season, and report the aggregate, honest
 verdict -- not just a hand-picked example season.
 

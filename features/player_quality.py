@@ -1,9 +1,9 @@
 """
 Season-long player "quality" proxy: total xT (possession-value) generated
 per 90 minutes played, across all 2015/16 matches. This is what makes
-substitutions in Step 5's feature table non-interchangeable -- swapping
-off a high-xT90 player reads differently than swapping off a bench-level
-one.
+substitutions in the in-game feature table (features/state.py)
+non-interchangeable -- swapping off a high-xT90 player reads differently
+than swapping off a bench-level one.
 
 Disclosed limitation: this only credits ball-progression actions (passes
 and carries) valued by the xT grid -- it does not capture defensive

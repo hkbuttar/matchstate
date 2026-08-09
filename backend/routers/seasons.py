@@ -1,6 +1,6 @@
-"""Serves Step 2's per-season fitted Dixon-Coles parameters (all 33
+"""Serves baseline/'s per-season fitted Dixon-Coles parameters (all 33
 EPL seasons) -- e.g. for a frontend view of home-advantage or team
-strength trends over time -- plus Step 3's within-season hierarchical
+strength trends over time -- plus bayesian/'s within-season hierarchical
 Bayesian team-strength trajectory for 2015/16 (the one season with a
 production Bayesian fit, from backend/state.py)."""
 
@@ -39,7 +39,7 @@ def season_detail(season: str):
 
 @router.get("/2015-16/bayesian-trajectory")
 def bayesian_trajectory():
-    """Step 3's within-season hierarchical Bayesian strength trajectory
+    """bayesian/'s within-season hierarchical Bayesian strength trajectory
     (partially-pooled random walk over 8 periods) for the one season
     with a production Bayesian fit. Long-format rows: team, period,
     attack, defense."""

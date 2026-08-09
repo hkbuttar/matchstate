@@ -1,12 +1,13 @@
 """
-Step 3's core deliverable: an honest, direct comparison of the static
-per-season Dixon-Coles baseline (Step 2) against this hierarchical,
-within-season time-varying Bayesian model, on genuinely held-out matches.
+This module's core deliverable: an honest, direct comparison of the
+static per-season Dixon-Coles baseline (`baseline/`) against this
+hierarchical, within-season time-varying Bayesian model, on genuinely
+held-out matches.
 
 Protocol per season:
   1. Split chronologically: first 75% of matches = train, last 25% = test.
   2. Fit static Dixon-Coles on train only (frozen -- same strength used
-     for every test match, exactly Step 2's model).
+     for every test match, exactly `baseline/`'s model).
   3. Fit the hierarchical Bayesian model on train only, then forecast test
      matches using its LAST fitted period's strength estimate (a random
      walk's best forecast of the future is its most recent state -- i.e.
@@ -14,7 +15,7 @@ Protocol per season:
   4. Score both on the test matches with multi-class Brier score and log
      loss. Lower is better for both.
 
-This isolates the question Step 3 asks: does letting strength drift
+This isolates the question this module asks: does letting strength drift
 within a season, rather than averaging it over the whole season, produce
 better predictions for matches near the end of that season? Reported
 honestly either way -- no cherry-picking of only-favorable seasons.

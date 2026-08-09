@@ -1,5 +1,5 @@
 """
-Generates raw (uncalibrated) predictions from all three Step 6 models on
+Generates raw (uncalibrated) predictions from all three `models/` models on
 a clean three-way split: fit (242 matches) / calibration (43 matches) /
 test (95 matches). The calibration set is disjoint from both model
 fitting and the final test set, so calibrators fit here and evaluated on

@@ -1,4 +1,4 @@
-# Render Blueprint for the MatchState backend (Step 13's FastAPI app).
+# Render Blueprint for the MatchState backend (backend/'s FastAPI app).
 # Deploy: connect this repo in the Render dashboard and it will detect this
 # file automatically ("New +" -> "Blueprint"), or apply it manually.
 #

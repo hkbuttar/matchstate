@@ -4,8 +4,8 @@ fitted attack/defense strength actually predict next season, with zero
 lookahead? This is the one model in the project that CAN be tested this
 way -- it only needs goal-level results, available for all 33 seasons
 (1993/94-2025/26), unlike the Bayesian/GBM/market comparisons which are
-necessarily confined to the single StatsBomb season (Step 1's disclosed
-coverage constraint).
+necessarily confined to the single StatsBomb season (see `data/README.md`'s
+disclosed coverage constraint).
 
 Promoted/relegated teams (~3 clubs swap every season) have no prior-
 season parameters at all -- rather than guess, matches involving any
@@ -16,10 +16,11 @@ this season's matches, among clubs that stayed in the league" -- not the
 harder, and genuinely different, problem of predicting newly promoted
 teams.
 
-Also computes the SAME-SEASON (in-sample, Step 2's original) Brier score
-restricted to the identical matches, so the walk-forward number isn't
-read in a vacuum -- it's compared directly against "what if you got to
-fit on the season you're predicting," which is the honest ceiling.
+Also computes the SAME-SEASON (in-sample, the static Dixon-Coles fit's
+original protocol) Brier score restricted to the identical matches, so the
+walk-forward number isn't read in a vacuum -- it's compared directly
+against "what if you got to fit on the season you're predicting," which
+is the honest ceiling.
 """
 
 import json
@@ -143,8 +144,8 @@ def main(n_boot: int = 2000):
         "per_model_ci": cis,
         "walkforward_vs_insample_diff": diff,
     }
-    (PROCESSED_DIR / "step10_season_walkforward.json").write_text(json.dumps(out, indent=2))
-    print(f"\nSaved to {PROCESSED_DIR / 'step10_season_walkforward.json'}")
+    (PROCESSED_DIR / "season_walkforward.json").write_text(json.dumps(out, indent=2))
+    print(f"\nSaved to {PROCESSED_DIR / 'season_walkforward.json'}")
 
 
 if __name__ == "__main__":

@@ -1,12 +1,13 @@
-# Step 6: Gradient Boosting Win Probability Model
+# Gradient Boosting Win Probability Model
 
 ## What this builds
 
 An XGBoost 3-class classifier (`multi:softprob`) predicting home_win /
-draw / away_win from the Step 5 in-game state features: score
-differential, time, running xG differential, Step 4's possession-value
-momentum, red cards, substitution count, and lineup-aware substitution
-quality. Team identity is deliberately excluded (see below).
+draw / away_win from `features/`'s in-game state features: score
+differential, time, running xG differential, `possession_value/`'s
+possession-value momentum, red cards, substitution count, and
+lineup-aware substitution quality. Team identity is deliberately excluded
+(see below).
 
 ## Comparison protocol (`models/compare.py`)
 
@@ -14,17 +15,17 @@ Same chronological 75/25 match-level split as `bayesian/evaluate.py`
 (285 train / 95 test matches of 2015/16), so all three models are
 directly comparable:
 
-1. **Static Dixon-Coles** (Step 2) and **Hierarchical Bayesian** (Step 3)
-   fit on the 285 train matches' results only, each recomputed at every
-   test row's exact (minute, score) via their `in_game_probabilities()`
-   methods (the Bayesian model's was added in this step, mirroring the
-   static model's time-scaling approach).
+1. **Static Dixon-Coles** (`baseline/`) and **Hierarchical Bayesian**
+   (`bayesian/`) fit on the 285 train matches' results only, each
+   recomputed at every test row's exact (minute, score) via their
+   `in_game_probabilities()` methods (the Bayesian model's was added
+   here, mirroring the static model's time-scaling approach).
 2. **Gradient boosting** trained on the 285 train matches' ~27,000
    per-minute rows (with an internal 85/15 chronological split for early
    stopping), scored on the same 95 held-out matches' ~9,000 rows.
 
 All three scored with the same multi-class Brier score and log loss used
-in Step 3, on the exact same test rows.
+in `bayesian/`, on the exact same test rows.
 
 ## Formation was tried and dropped -- a measured, not assumed, decision
 
@@ -32,8 +33,9 @@ Formation initially looked informative (~15% combined feature
 importance), but checking *why* revealed a real problem: several clubs
 used one formation almost exclusively that season (Arsenal 4-2-3-1 in
 19/19 home matches, Chelsea 18/19, Leicester 4-4-2 in 16/19) -- with only
-20 teams appearing in both train and test (Step 1's StatsBomb coverage
-constraint means there's no "unseen team" holdout), formation functions
+20 teams appearing in both train and test (the StatsBomb single-season
+coverage constraint, see `data/README.md`, means there's no "unseen team"
+holdout), formation functions
 as a near-team-identity fingerprint rather than a dynamic in-game signal.
 Confirmed empirically, not just by suspicion: held-out Brier score was
 **worse with formation included** (0.3441) than without (0.3110) -- a
@@ -77,27 +79,27 @@ this right "for free" from its parametric assumptions.
 
 ## Honest takeaway
 
-This is exactly the outcome Step 1's disclosed StatsBomb-coverage
-constraint (380 matches, one season) predicted was possible: a flexible
-model needs more data than a well-specified simple parametric one to
-match it in the regimes that parametric model was built to handle well.
-Gradient boosting's real, demonstrated value here is specifically in
-early-match state-awareness, not as a wholesale replacement for the
+This is exactly the outcome the disclosed StatsBomb-coverage constraint
+(380 matches, one season -- see `data/README.md`) predicted was possible:
+a flexible model needs more data than a well-specified simple parametric
+one to match it in the regimes that parametric model was built to handle
+well. Gradient boosting's real, demonstrated value here is specifically
+in early-match state-awareness, not as a wholesale replacement for the
 Dixon-Coles family. A natural, not-yet-built refinement: blend the two
 (e.g. GBM early, baseline-dominated late, or an explicit ensemble) --
-noted as future work rather than implemented here, to keep this step's
-result honestly a straight three-way comparison rather than a
-post-hoc-tuned "win."
+noted as future work rather than implemented here, to keep this result
+honestly a straight three-way comparison rather than a post-hoc-tuned
+"win."
 
 ## Output
 
-`data/processed/step6_comparison.json` -- summary metrics. Full
+`data/processed/gbm_vs_baselines.json` -- summary metrics. Full
 per-model prediction code is in `models/gbm.py` (feature prep, training)
 and `models/compare.py` (the three-way evaluation).
 
 ---
 
-# Step 7: Big-Moment Detection (`models/big_moments.py`)
+# Big-Moment Detection (`models/big_moments.py`)
 
 Flags the largest win-probability swings per match (total variation
 distance between consecutive minutes' [home/draw/away] vectors) and
@@ -125,7 +127,7 @@ James McCarthy picks up a second yellow at minute 51.
 held-out test matches, mean swing at the red-card minute was **0.157**
 for GBM vs. **0.0049** for static Dixon-Coles -- confirming this is a
 systematic, structural blind spot in the Poisson-family models, not a
-one-off. This is one of Step 6's real findings made concrete: even though
+one-off. This makes the gradient boosting comparison above concrete: even though
 gradient boosting loses on aggregate Brier score, it captures information
 (red cards, momentum) the baselines are structurally incapable of using
 at all.

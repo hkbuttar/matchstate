@@ -1,4 +1,4 @@
-# Step 4: Possession-Value Momentum Model
+# Possession-Value Momentum Model
 
 ## What this builds
 
@@ -34,9 +34,8 @@ shots, since they attack the opposite end by construction). See
 
 ## Sanity check (`possession_value/fit_and_check.py`)
 
-The plan calls for checking that threat increases monotonically moving
-toward goal. Collapsing the grid to mean xT per x-bin (0 = own goal end,
-15 = opponent's goal end):
+Checks that threat increases monotonically moving toward goal. Collapsing
+the grid to mean xT per x-bin (0 = own goal end, 15 = opponent's goal end):
 
 ```
 x_bin  0:   2.97       x_bin  8:  10.62
@@ -61,7 +60,7 @@ leagues/seasons).
 Per match, per minute, per team: threat generated that minute, plus
 rolling 5-minute and 10-minute trailing sums (`compute_momentum`), and a
 home-minus-away differential (`momentum_differential`) -- the actual
-feature Step 5/6 will consume.
+feature `features/` and `models/` consume.
 
 **Validation (`possession_value/demo_momentum.py`):** ran this on
 Southampton's real 4-0 win at Arsenal (2015/16). The scoring team's
@@ -82,8 +81,8 @@ momentum sum -- only completed passes/carries count).
 
 ## How this feeds forward
 
-Step 5 will pull `momentum_differential()` into the in-game feature
-table alongside score/time/cards/subs. Step 7's big-moment detection can
-also use large single-action xT deltas directly (e.g. a progressive pass
-that spikes threat by 0.2+ in one action) as a candidate signal, separate
-from win-probability swings.
+`features/` pulls `momentum_differential()` into the in-game feature
+table alongside score/time/cards/subs. `models/`'s big-moment detection
+can also use large single-action xT deltas directly (e.g. a progressive
+pass that spikes threat by 0.2+ in one action) as a candidate signal,
+separate from win-probability swings.

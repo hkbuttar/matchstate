@@ -1,4 +1,4 @@
-# Step 9: Betting-Market Benchmark
+# Betting-Market Benchmark
 
 ## Data and method
 
@@ -34,17 +34,17 @@ statistical model getting reasonably close to a professional market
 without beating it.
 
 **Why GBM does noticeably worse here, specifically:** this isn't really
-a fair test of GBM's value proposition. Step 6 deliberately excluded team
-identity from its features, so at minute 0 every match's score/xG/cards/
-subs are all ~zero -- GBM has essentially no way to differentiate matches
-before kickoff. Its whole value (Steps 6-7) is in-game state-awareness;
-including it in a pre-match comparison mostly measures the absence of a
-feature it was never designed to have.
+a fair test of GBM's value proposition. `models/` deliberately excluded
+team identity from its features, so at minute 0 every match's score/xG/
+cards/subs are all ~zero -- GBM has essentially no way to differentiate
+matches before kickoff. Its whole value (see `models/README.md`) is
+in-game state-awareness; including it in a pre-match comparison mostly
+measures the absence of a feature it was never designed to have.
 
-## Part 2: In-game -- the isolated question this step is really about
+## Part 2: In-game -- the isolated question that matters most here
 
-Per the plan: does our models' real-time (score/time-conditioned) update
-add genuine value beyond just taking the market's pre-match view and
+Does the models' real-time (score/time-conditioned) update add genuine
+value beyond just taking the market's pre-match view and
 adjusting it naively for the current score? Built a "market + naive
 adjustment" baseline that inverts the market's pre-match probabilities to
 an implied (lambda, mu) goal-rate pair, then applies the *exact same*
@@ -67,7 +67,7 @@ our more sophisticated in-game updating (real fitted attack/defense
 strength evolution vs. a naive fixed-rate rescaling of the market's
 prior) closes most, but not all, of the gap that existed before kickoff.
 With only 95 test matches, a 0.6% gap is small enough that it's plausibly
-within noise -- Step 10's bootstrap confidence intervals will assess this
+within noise -- `backtest/`'s bootstrap confidence intervals assess this
 properly rather than reading a point estimate as definitive.
 
 | Phase | Market+naive | Static | Bayesian | GBM |
@@ -96,4 +96,4 @@ calls to reproduce identical row order. Numbers above are post-fix.
 
 ## Output
 
-`data/processed/step9_market_comparison.json`.
+`data/processed/market_comparison.json`.

@@ -1,8 +1,9 @@
 """
-Wraps Steps 6/9's in-game model comparison (static Dixon-Coles,
-hierarchical Bayesian, gradient boosting, market+naive-adjustment) with
-match-block bootstrap confidence intervals -- are the small gaps found
-in those steps real, or within noise given only 95 test matches?
+Wraps the in-game model comparison from `models/` and `market/` (static
+Dixon-Coles, hierarchical Bayesian, gradient boosting,
+market+naive-adjustment) with match-block bootstrap confidence intervals
+-- are the small gaps found there real, or within noise given only 95
+test matches?
 """
 
 import json
@@ -85,8 +86,8 @@ def main(n_boot: int = 2000):
         print(f"  {a:10s} - {b:10s}: {d['point_diff']:+.4f}  [{d['ci_lo']:+.4f}, {d['ci_hi']:+.4f}]  ({sig})")
 
     out = {"per_model_ci": cis, "pairwise_diffs": diffs, "n_boot": n_boot, "n_matches": int(len(np.unique(match_ids)))}
-    (PROCESSED_DIR / "step10_ingame_bootstrap.json").write_text(json.dumps(out, indent=2))
-    print(f"\nSaved to {PROCESSED_DIR / 'step10_ingame_bootstrap.json'}")
+    (PROCESSED_DIR / "ingame_bootstrap.json").write_text(json.dumps(out, indent=2))
+    print(f"\nSaved to {PROCESSED_DIR / 'ingame_bootstrap.json'}")
 
 
 if __name__ == "__main__":

@@ -1,9 +1,9 @@
-# Step 8: Probability Calibration
+# Probability Calibration
 
 ## Setup
 
 Clean three-way, match-level split of 2015/16: **fit** (242 matches, for
-the underlying models -- same as Steps 6-7) / **calibration** (43
+the underlying models -- same as `models/`) / **calibration** (43
 matches, used only to fit Platt scaling and isotonic regression) /
 **test** (95 matches, final evaluation, untouched by calibration
 fitting). This avoids the common mistake of calibrating and evaluating
@@ -42,10 +42,10 @@ Both Platt scaling and (especially) isotonic regression overfit to that
 handful of matches' probability trajectories and generalize poorly to
 the fresh 29 draws / 23 away-wins in the 95-match test set.
 
-This is exactly Step 1's disclosed StatsBomb-coverage constraint (380
-matches, one season) resurfacing in a new form: not enough independent
-match outcomes to safely fit a second correction layer on top of an
-already-fitted model, for the rarer classes.
+This is exactly the disclosed StatsBomb-coverage constraint (380 matches,
+one season -- see `data/README.md`) resurfacing in a new form: not enough
+independent match outcomes to safely fit a second correction layer on top
+of an already-fitted model, for the rarer classes.
 
 ## Reliability diagrams
 
@@ -61,8 +61,8 @@ isotonic regression; leave draw and away_win predictions raw** (or, as
 future work, refit calibration using all 380 matches via k-fold
 cross-validation rather than a single 43-match holdout, which would
 give every class a fairer amount of independent evidence -- noted as a
-next step, not built here to keep this step's result an honest
-reflection of what a single fixed calibration split actually produces).
+next step, not built here, to keep this result an honest reflection of
+what a single fixed calibration split actually produces).
 
 ## Output
 

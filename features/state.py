@@ -1,7 +1,7 @@
 """
-Build the per-match, per-minute in-game state feature table (Step 5):
-score, time, running xG differential, possession-value momentum (Step 4),
-red cards, and lineup-aware substitution quality.
+Build the per-match, per-minute in-game state feature table:
+score, time, running xG differential, possession-value momentum
+(possession_value/), red cards, and lineup-aware substitution quality.
 
 Disclosed simplification: formation is taken from each team's starting
 XI only. StatsBomb does expose mid-match tactical shifts, but tracking

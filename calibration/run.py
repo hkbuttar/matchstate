@@ -1,5 +1,5 @@
 """
-Step 8: fit Platt scaling and isotonic regression per model (on the 43-
+Fit Platt scaling and isotonic regression per model (on the 43-
 match calibration split), evaluate before/after on the 95-match test
 split, per outcome class -- reported separately, since draws are the
 class most likely to be miscalibrated and averaging would hide that.

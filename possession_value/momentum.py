@@ -3,8 +3,9 @@ Aggregate per-action xT (possession) values into a rolling "momentum"
 feature per team: how much threat has this team generated in the last 5
 / 10 minutes? This is richer than a raw shot/xG count because it credits
 sustained good positional play even in spells with no shots at all --
-exactly the signal Step 6's win-probability model needs beyond what
-Steps 2-3's score-based models can see.
+exactly the signal the gradient boosting model (models/) needs beyond
+what the score-based Dixon-Coles/Bayesian models (baseline/, bayesian/)
+can see.
 """
 
 import pandas as pd
@@ -58,7 +59,7 @@ def compute_momentum(actions: pd.DataFrame, xt_model: ExpectedThreat, match_id: 
 
 def momentum_differential(momentum_df: pd.DataFrame, home_team: str, away_team: str) -> pd.DataFrame:
     """Collapse to one row per minute: home team's momentum minus away
-    team's -- the actual feature Step 5/6 will consume (positive = home
+    team's -- the actual feature features/ and models/ consume (positive = home
     team currently dominating possession-value)."""
     wide = momentum_df.pivot(index="minute", columns="team", values=["momentum_5min", "momentum_10min"])
     out = pd.DataFrame(index=wide.index)

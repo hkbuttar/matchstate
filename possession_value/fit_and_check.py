@@ -2,7 +2,7 @@
 Fit the xT grid on the full 2015/16 action set, save it, and run the
 sanity check called for in the project plan: does threat increase
 monotonically as play moves toward the opponent's goal? (A formal pytest
-version belongs in tests/, Step 12 -- this is the build-time check.)
+version belongs in tests/ -- this is the build-time check.)
 """
 
 from pathlib import Path

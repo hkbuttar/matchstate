@@ -1,6 +1,6 @@
 """
 Lightweight, real-world sanity checks for the Dixon-Coles baseline
-(formal unit tests against synthetic data belong in tests/, Step 12).
+(formal unit tests against synthetic data belong in tests/).
 This script re-fits the well-known 2015/16 season (Leicester's title win)
 and checks the model's outputs make intuitive sense.
 """

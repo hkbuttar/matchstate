@@ -1,6 +1,6 @@
 """
-Step 7: automatically flag the largest win-probability swings per match,
-and use them as a live sanity check -- do the model's probabilities
+Automatically flags the largest win-probability swings per match,
+and uses them as a live sanity check -- do the model's probabilities
 actually respond to known-impactful events (goals, red cards)?
 
 Swing magnitude uses total variation distance (TVD) between consecutive
@@ -9,9 +9,9 @@ rather than tracking home_win alone, so a shift into/out of a draw counts
 too, not just swings toward/away from a home win.
 
 Reuses the exact fitted models from models/compare.py (same train/test
-split), run on the 95 held-out test matches -- consistent with Step 6,
-and avoids conflating "big swing" with "model overfit to a match it was
-trained on."
+split), run on the 95 held-out test matches -- consistent with that
+comparison, and avoids conflating "big swing" with "model overfit to a
+match it was trained on."
 
 Honest hypothesis worth testing explicitly: Dixon-Coles and the
 hierarchical Bayesian model only ever see score and time -- NOT red

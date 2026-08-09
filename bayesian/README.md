@@ -1,6 +1,6 @@
-# Step 3: Hierarchical Bayesian Team-Strength Model
+# Hierarchical Bayesian Team-Strength Model
 
-## What this model does differently from Step 2
+## What this model does differently from the static Dixon-Coles baseline
 
 `baseline.dixon_coles.DixonColes` fits one attack/defense number per team
 for an entire season. `bayesian.model.HierarchicalDixonColes` instead lets
@@ -14,13 +14,13 @@ season progresses, its own results dominate.
 **Disclosed simplification:** this model omits Dixon-Coles' low-score
 (`tau`/`rho`) correction, to keep the sampling problem smaller and faster.
 Its effect is expected to be second-order next to the time-varying-strength
-question this step is actually testing.
+question actually being tested here.
 
 ## Comparison protocol (`bayesian/evaluate.py`, `bayesian/run_all_seasons.py`)
 
 For each of the 33 complete EPL seasons:
 1. Split chronologically: first 75% of matches = train, last 25% = test.
-2. Fit static Dixon-Coles on train only (frozen strength, exactly Step 2).
+2. Fit static Dixon-Coles on train only (frozen strength, exactly `baseline/`'s model).
 3. Fit the hierarchical model on train only; forecast test matches using
    its **last fitted period's** strength (a random walk's best forecast of
    the future is its most recent state -- "current form carried forward").
@@ -44,8 +44,8 @@ sweeping win:** the average edge is modest, not dramatic, and it loses
 outright in a third of seasons -- including, notably, 2015/16 (Leicester's
 title season), where the static model actually predicted the final
 quarter slightly better (Brier 0.5863 vs 0.5896). Full-run gradient
-boosting isn't guaranteed to close this gap either; that comparison is
-Step 6's job, not this one's.
+boosting isn't guaranteed to close this gap either; that comparison
+belongs to `models/`, not here.
 
 Per-season numbers, including convergence diagnostics, are saved in
 `data/processed/bayesian_vs_static.json`.
@@ -82,8 +82,9 @@ alone.
 
 ## How this feeds forward
 
-Step 6 will compare gradient boosting against *both* this model and the
+`models/` compares gradient boosting against *both* this model and the
 static Dixon-Coles baseline, each recomputed given current score/time --
 this file's honest, modest verdict ("time-varying helps somewhat more
 often than not, but not dramatically, and not universally") is the bar
-Step 6 needs to clear, not a foregone conclusion that fancier always wins.
+that comparison needs to clear, not a foregone conclusion that fancier
+always wins.

@@ -1,5 +1,5 @@
 """
-Step 12: Dixon-Coles validation.
+Dixon-Coles validation.
 
 The key test here is parameter RECOVERY on synthetic data: generate
 match results from a Dixon-Coles process with known true attack/defense/
@@ -143,9 +143,9 @@ def test_identifiability_constraint_holds(synthetic_fit):
 
 
 def test_probabilities_sum_to_one():
-    """Regression check on real data (Step 2's original sanity check,
-    formalized): match probabilities and in-game probabilities must be
-    valid probability distributions."""
+    """Regression check on real data (baseline/sanity_check.py's original
+    check, formalized): match probabilities and in-game probabilities
+    must be valid probability distributions."""
     results = load_results()
     season_df = results[results["Season"] == "2015/16"]
     model = DixonColes().fit(season_df)
@@ -168,8 +168,8 @@ def test_home_advantage_positive_on_real_data():
 
 def test_leading_late_increases_win_probability():
     """A team leading late in the match should have a higher win
-    probability than its pre-match baseline (Step 2's original sanity
-    assertion, kept as a permanent regression test)."""
+    probability than its pre-match baseline (baseline/sanity_check.py's
+    original assertion, kept as a permanent regression test)."""
     results = load_results()
     season_df = results[results["Season"] == "2015/16"]
     model = DixonColes().fit(season_df)

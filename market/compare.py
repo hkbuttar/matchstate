@@ -1,5 +1,5 @@
 """
-Step 9's core deliverable, in two genuinely distinct parts:
+This module's core deliverable, in two genuinely distinct parts:
 
 1. PRE-MATCH: our three models vs. the real (de-vigged Pinnacle closing
    odds) market, on the 95 held-out test matches. Expectation, stated in

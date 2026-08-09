@@ -1,4 +1,4 @@
-# Step 15: Deployment
+# Deployment
 
 Backend on Render (needs a persistent process -- the models are fit once at
 startup and kept in memory, which a serverless/cold-per-request platform

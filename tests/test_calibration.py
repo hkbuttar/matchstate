@@ -1,5 +1,5 @@
 """
-Step 12: calibration procedure validation.
+Calibration procedure validation.
 
 The key test: deliberately construct data with a KNOWN, systematic
 miscalibration (overconfidence via squaring/renormalizing true

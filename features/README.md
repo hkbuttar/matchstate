@@ -1,4 +1,4 @@
-# Step 5: In-Game State & Lineup-Aware Features
+# In-Game State & Lineup-Aware Features
 
 ## What this builds
 
@@ -8,7 +8,7 @@ total), with:
 - `score_diff`, `home_goals`, `away_goals`, `minutes_remaining`
 - `xg_diff`: running cumulative shot-xG differential (StatsBomb's
   `statsbomb_xg`), home minus away
-- `momentum_5min_diff`, `momentum_10min_diff`: Step 4's rolling
+- `momentum_5min_diff`, `momentum_10min_diff`: `possession_value/`'s rolling
   possession-value momentum, home minus away
 - `red_cards_diff`: cumulative sendings-off (both "Red Card" and "Second
   Yellow" count identically -- both leave the team a player down)
@@ -23,7 +23,7 @@ total), with:
 
 ## Player quality proxy (`features/player_quality.py`)
 
-Season-long xT (Step 4) generated per 90 minutes played, shrunk toward
+Season-long xT (from `possession_value/`) generated per 90 minutes played, shrunk toward
 the league-average rate for players with limited minutes (< 180 minutes
 gets meaningfully pulled toward the mean rather than trusted raw).
 
@@ -65,4 +65,4 @@ extension, not built.
 ## Output
 
 `data/processed/ingame_features_2015_16.parquet` -- 36,125 rows, ready
-for Step 6's gradient boosting model.
+for the gradient boosting model in `models/`.

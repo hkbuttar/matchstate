@@ -1,12 +1,11 @@
 """
-Step 6's core deliverable: compare the gradient boosting model against
-BOTH baselines -- static Dixon-Coles (Step 2) and the hierarchical
-Bayesian model (Step 3) -- each recomputed given current score/time, on
-the exact same held-out match-minutes.
+Compares the gradient boosting model against BOTH baselines -- static
+Dixon-Coles and the hierarchical Bayesian model -- each recomputed given
+current score/time, on the exact same held-out match-minutes.
 
 Protocol: chronological 75/25 match-level split of 2015/16 (the same
 season/split convention bayesian/evaluate.py used, for direct
-comparability with that step's numbers). All three models are fit/trained
+comparability with those numbers). All three models are fit/trained
 on the same 285 train matches and scored on the same 95 test matches'
 per-minute rows -- roughly 9,000 held-out (match, minute) snapshots.
 """
@@ -111,7 +110,7 @@ def main():
             row_line += f"  {name}={brier:.4f}"
         print(row_line)
 
-    out_path = PROCESSED_DIR / "step6_comparison.json"
+    out_path = PROCESSED_DIR / "gbm_vs_baselines.json"
     out_path.write_text(json.dumps(results_table, indent=2))
     print(f"\nSaved summary to {out_path}")
 

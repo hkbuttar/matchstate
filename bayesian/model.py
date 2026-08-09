@@ -1,5 +1,5 @@
 """
-Hierarchical Bayesian extension of the Dixon-Coles baseline (Step 2):
+Hierarchical Bayesian extension of the Dixon-Coles baseline (baseline/):
 team attack/defense strengths are (a) partially pooled across teams via
 shared hyperparameters, and (b) allowed to evolve within a season via a
 random walk over chronological "periods", rather than fixed for the whole
@@ -87,7 +87,7 @@ class HierarchicalDixonColes:
             )
             # Zero-sum each period (identifiability: otherwise a constant
             # could shift every attack score up and every defense score
-            # down with no change in likelihood -- same issue as Step 2).
+            # down with no change in likelihood -- same issue as baseline/'s model).
             attack = pm.Deterministic("attack", attack_raw - attack_raw.mean(axis=0, keepdims=True))
             defense = pm.Deterministic("defense", defense_raw - defense_raw.mean(axis=0, keepdims=True))
 

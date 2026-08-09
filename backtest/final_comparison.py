@@ -1,10 +1,10 @@
 """
-Step 11: the full model x outcome-class x market comparison table, with
-confidence intervals -- extends Step 10's bootstrap to per-class
-granularity (Step 10 only bootstrapped the combined 3-class Brier score).
-Reuses the exact same fitted models, splits, and market data as Steps
-6/9/10 -- no refitting, just finer-grained reporting on results already
-established.
+The full model x outcome-class x market comparison table, with
+confidence intervals -- extends the bootstrap analysis in this directory
+to per-class granularity (that analysis only bootstrapped the combined
+3-class Brier score). Reuses the exact same fitted models, splits, and
+market data as `models/` and `market/` -- no refitting, just finer-grained
+reporting on results already established.
 """
 
 import json
@@ -101,8 +101,8 @@ def main():
     ingame_table = run_comparison("ingame")
 
     out = {"prematch": prematch_table, "ingame": ingame_table}
-    (PROCESSED_DIR / "step11_final_comparison.json").write_text(json.dumps(out, indent=2))
-    print(f"\nSaved to {PROCESSED_DIR / 'step11_final_comparison.json'}")
+    (PROCESSED_DIR / "final_comparison.json").write_text(json.dumps(out, indent=2))
+    print(f"\nSaved to {PROCESSED_DIR / 'final_comparison.json'}")
 
 
 if __name__ == "__main__":

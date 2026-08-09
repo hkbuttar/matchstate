@@ -2,10 +2,10 @@
 Block bootstrap for confidence intervals on Brier score, blocking by
 match rather than by row.
 
-Every comparison in Steps 3/6/8/9 reported a single point estimate on a
-held-out set. But per-minute rows within one match are highly correlated
-(they share the same outcome and much of the same trajectory) -- Step 8's
-calibration section already ran into this directly (a 43-match
+Every comparison in bayesian/, models/, calibration/, and market/
+reported a single point estimate on a held-out set. But per-minute rows
+within one match are highly correlated (they share the same outcome and
+much of the same trajectory) -- calibration/ already ran into this directly (a 43-match
 calibration set has only 9 independent draw outcomes despite ~900 "draw"
 rows). Treating each row as an independent bootstrap unit would
 understate uncertainty. Resampling whole matches (with replacement) and

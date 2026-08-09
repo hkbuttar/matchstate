@@ -1,7 +1,7 @@
 """
 Parse StatsBomb lineup/formation, substitution, and card events for a
 match, and derive each player's actual minutes played -- needed both for
-the substitution-quality feature (Step 5) and for normalizing player
+the substitution-quality feature (this module) and for normalizing player
 contributions to a per-90 basis (features/player_quality.py).
 
 Both "Red Card" and "Second Yellow" dismissals end a player's match and

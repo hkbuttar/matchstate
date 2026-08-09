@@ -81,7 +81,7 @@ export default async function MarketPage() {
           In-game Brier score, with 95% bootstrap confidence intervals
         </h2>
         <p className="mb-3 text-sm" style={{ color: "var(--text-secondary)" }}>
-          Vertical bars show the match-block bootstrap 95% CI (Step 10). Every interval overlaps every other --
+          Vertical bars show the match-block bootstrap 95% CI. Every interval overlaps every other --
           none of these differences are statistically significant except GBM vs. Bayesian and market vs. GBM (see
           table below).
         </p>

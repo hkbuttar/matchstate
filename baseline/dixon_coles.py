@@ -42,7 +42,7 @@ def tau(x: int, y: int, lam: float, mu: float, rho: float) -> float:
 class DixonColes:
     """Fits fixed (non-time-varying) attack/defense strengths on a set of
     match results -- typically one season at a time. See bayesian/ for the
-    hierarchical, within-season time-varying extension (Step 3)."""
+    hierarchical, within-season time-varying extension."""
 
     def __init__(self):
         self.teams: list[str] | None = None
@@ -128,7 +128,7 @@ class DixonColes:
         return matrix
 
     def match_probabilities(self, home_team: str, away_team: str) -> dict:
-        """Pre-match win/draw/loss probabilities (Step 2's core deliverable)."""
+        """Pre-match win/draw/loss probabilities -- this module's core deliverable."""
         matrix = self.score_matrix(home_team, away_team)
         lam, mu = self._rates(home_team, away_team)
         return {

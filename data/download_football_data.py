@@ -11,7 +11,7 @@ Column coverage varies by era:
   - Betting odds columns (B365H/D/A, and others) are only populated
     consistently from around the 2000-01 season onward, and the *set* of
     bookmakers included grows over time (fewer bookmakers in early seasons).
-This matters for Step 9 (betting-market benchmark): earlier seasons may
+This matters for the betting-market benchmark (`market/`): earlier seasons may
 have partial or missing odds and should not be silently treated as
 "market says X" when the market column is actually NaN.
 """

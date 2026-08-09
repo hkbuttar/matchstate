@@ -1,7 +1,7 @@
 """
-Step 13: FastAPI backend. Serves match state, live in-game win
+FastAPI backend. Serves match state, live in-game win
 probability trajectories, big-moment detection, and the held-out
-evaluation results from Steps 3/6/8/9/10/11.
+evaluation results from bayesian/, models/, calibration/, market/, and backtest/.
 
 Models are fit once at startup (lifespan context) and kept in memory --
 NUTS sampling for the Bayesian model takes a few seconds; refitting per

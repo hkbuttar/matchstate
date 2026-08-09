@@ -1,5 +1,5 @@
 """
-Gradient boosting win-probability model (Step 6): predicts 3-class
+Gradient boosting win-probability model: predicts 3-class
 (home_win / draw / away_win) from in-game state snapshots built in
 features/state.py.
 

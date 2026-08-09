@@ -1,10 +1,10 @@
 """
-Step 12: possession-value (xT) model validation.
+Possession-value (xT) model validation.
 
 Two checks: (1) a synthetic test with a hand-constructed action set where
 the correct zone ordering is known by construction, validating the value
 iteration algorithm itself; (2) the real-data monotonicity check from
-Step 4 (possession_value/fit_and_check.py), formalized as a permanent
+possession_value/fit_and_check.py, formalized as a permanent
 regression test on the actual saved model artifact.
 """
 
@@ -73,7 +73,7 @@ def test_synthetic_value_iteration_recovers_known_ordering():
 
 @pytest.mark.skipif(not MODEL_PATH.exists(), reason="fitted xT grid not built yet (run possession_value/fit_and_check.py)")
 def test_real_grid_monotonic_toward_goal():
-    """Regression test for Step 4's real-data finding: mean xT per x-bin
+    """Regression test for possession_value/'s real-data finding: mean xT per x-bin
     should be (near-)monotonically increasing from own goal to opponent's
     goal. Originally found 0/15 decreases on the full fit -- allow a
     small amount of noise rather than requiring exact monotonicity, since

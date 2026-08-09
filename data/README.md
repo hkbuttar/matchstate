@@ -2,8 +2,8 @@
 
 This file documents exactly what was downloaded, from where, and — most
 importantly — the hard coverage limits of each source. These constraints
-shape what every later step can and can't claim; they are not bugs to
-"fix" later.
+shape what every model built on top of this data can and can't claim; they
+are not bugs to "fix" later.
 
 All raw data lives under `data/raw/` and is gitignored (large,
 re-downloadable, and in StatsBomb's case licensed for non-redistribution —
@@ -26,11 +26,11 @@ see below). Re-run the scripts in this directory to repopulate it.
   - Mid-2000s onward: Bet365 (`B365H/D/A`) and other bookmakers are added.
   - Recent seasons (2020s): dozens of odds columns incl. Pinnacle
     (`PSH/PSD/PSA`), Bet365, William Hill, and market-average/max columns.
-  - **Practical implication for Step 9 (betting-market benchmark):** the
-    market-comparison analysis is only meaningful from ~2000/01 onward, and
-    the exact bookmaker(s) available differ by season. Pre-2000 seasons can
-    be used for Dixon-Coles / Bayesian model fitting (Steps 2-3) but must be
-    excluded from any market-benchmark comparison.
+  - **Practical implication for the betting-market benchmark (`market/`):**
+    the market-comparison analysis is only meaningful from ~2000/01 onward,
+    and the exact bookmaker(s) available differ by season. Pre-2000 seasons
+    can be used for Dixon-Coles / Bayesian model fitting (`baseline/`,
+    `bayesian/`) but must be excluded from any market-benchmark comparison.
 - Early-season CSVs also contain trailing blank rows (a formatting quirk
   of the source, not missing matches) — these are dropped during parsing,
   not treated as missing data.
@@ -54,22 +54,22 @@ World Cups, several women's leagues, etc.), their free open data for the
 | 2015/16 | 2 | 27 | 380 | Full season, all 20 clubs (the Leicester title season) |
 | 2003/04 | 2 | 44 | 38 | **Arsenal matches only** ("Invincibles" release — every match involves Arsenal) |
 
-**Practical implication for Steps 4-6:** the possession-value model,
-lineup-aware features, and gradient-boosting win-probability model can only
-be trained on event-level data from **one full, team-general season**
-(2015/16, 380 matches). The 2003/04 set is retained for spot-checks /
-Arsenal-specific sanity checks but is **excluded from general model
-training** — including it would bias the model toward Arsenal-specific
+**Practical implication for the possession-value model, in-game features,
+and gradient boosting model** (`possession_value/`, `features/`, `models/`):
+they can only be trained on event-level data from **one full, team-general
+season** (2015/16, 380 matches). The 2003/04 set is retained for
+spot-checks / Arsenal-specific sanity checks but is **excluded from general
+model training** — including it would bias the model toward Arsenal-specific
 patterns (personnel, tactics, referees who officiated Arsenal games) that
 don't generalize.
 
 This is a real ceiling, not a placeholder: 380 matches of full in-game
 event trajectories is a modest training set for a granular, timestamped
-win-probability model. It will be treated explicitly as a stated
-limitation throughout (Steps 11 and 16), and cross-validation in Step 10
-will need within-season splitting (e.g. by matchweek or by match) rather
-than the cross-season walk-forward validation used for the Dixon-Coles /
-Bayesian models, since there's only one season available.
+win-probability model. It's treated explicitly as a stated limitation
+throughout (see the main README and `RESULTS.md`), and cross-validation
+(`backtest/`) needs within-season splitting (e.g. by matchweek or by match)
+rather than the cross-season walk-forward validation used for the
+Dixon-Coles / Bayesian models, since there's only one season available.
 
 Downloaded per match: `events/{match_id}.json` (every on-ball event with
 pitch coordinates and timestamps) and `lineups/{match_id}.json` (starting
@@ -90,7 +90,7 @@ the same data as JSON directly. The script calls that endpoint.
 
 Each match record includes Understat's own pre-match forecast
 (win/draw/loss probabilities) alongside match xG — useful as a second,
-independent model-comparison point in Step 11, distinct from both
+independent model-comparison point (see `RESULTS.md`), distinct from both
 Dixon-Coles and the betting market.
 
 ## Summary table

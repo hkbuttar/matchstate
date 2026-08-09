@@ -1,5 +1,5 @@
 """
-Step 12: hierarchical Bayesian model validation -- convergence
+Hierarchical Bayesian model validation -- convergence
 diagnostics as hard assertions (not just eyeballed numbers, as in
 bayesian/run_all_seasons.py's printed report), plus a genuine posterior
 predictive check (PPC): does simulating matches from the fitted
@@ -25,7 +25,7 @@ def fitted_2015_16():
 def test_convergence_diagnostics(fitted_2015_16):
     """Formal version of the check bayesian/run_all_seasons.py already
     performs per-season -- here as hard assertions with round_to='none'
-    (the bug caught in Step 3: az.summary's default rounds r_hat to 2dp,
+    (the bug caught in bayesian/: az.summary's default rounds r_hat to 2dp,
     which falsely flags healthy fits sitting near the 1.01 boundary)."""
     import arviz as az
 

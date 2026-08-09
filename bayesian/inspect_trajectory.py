@@ -1,5 +1,5 @@
 """
-Qualitative sanity check for the hierarchical model (Step 3): does a
+Qualitative sanity check for the hierarchical model: does a
 team's estimated within-season strength trajectory actually move the way
 we know, from real football history, that it should?
 
