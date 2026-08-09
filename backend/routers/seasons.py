@@ -1,11 +1,15 @@
 """Serves Step 2's per-season fitted Dixon-Coles parameters (all 33
 EPL seasons) -- e.g. for a frontend view of home-advantage or team
-strength trends over time."""
+strength trends over time -- plus Step 3's within-season hierarchical
+Bayesian team-strength trajectory for 2015/16 (the one season with a
+production Bayesian fit, from backend/state.py)."""
 
 import json
 from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
+
+from backend.state import state
 
 router = APIRouter(prefix="/seasons", tags=["seasons"])
 PARAMS_DIR = Path(__file__).parent.parent.parent / "data" / "processed" / "dixon_coles"
@@ -31,3 +35,12 @@ def season_detail(season: str):
     if not path.exists():
         raise HTTPException(404, f"No fitted parameters for season '{season}'")
     return json.loads(path.read_text())
+
+
+@router.get("/2015-16/bayesian-trajectory")
+def bayesian_trajectory():
+    """Step 3's within-season hierarchical Bayesian strength trajectory
+    (partially-pooled random walk over 8 periods) for the one season
+    with a production Bayesian fit. Long-format rows: team, period,
+    attack, defense."""
+    return state.bayesian_model.strength_trajectory().to_dict(orient="records")
