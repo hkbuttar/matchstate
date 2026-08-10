@@ -1,5 +1,6 @@
 """
-Application state: models fit once at API startup and kept in memory,
+Application state: lightweight models are fit once at API startup, the
+precomputed Bayesian posterior means are loaded, and all are kept in memory,
 plus lazily-loaded static data artifacts from earlier steps.
 
 Distinction worth being explicit about: these are "production" models,
@@ -36,18 +37,19 @@ import pandas as pd
 
 from baseline.data import load_results
 from baseline.dixon_coles import DixonColes
-from bayesian.model import HierarchicalDixonColes
+from bayesian.frozen import FrozenBayesianStrength
 from models.gbm import train_gbm
 from possession_value.data import RAW_DIR
 
 PROCESSED_DIR = Path(__file__).parent.parent / "data" / "processed"
 MATCHES_FILE = RAW_DIR / "matches" / "2_27.json"
 MATCH_EVENTS_FILE = PROCESSED_DIR / "match_events_2015_16.json"
+BAYESIAN_FIT_FILE = PROCESSED_DIR / "bayesian_production_fit.json"
 
 
 class AppState:
     static_model: DixonColes
-    bayesian_model: HierarchicalDixonColes
+    bayesian_model: FrozenBayesianStrength
     gbm_model: object
     features_df: pd.DataFrame
     match_meta: dict[int, dict]
@@ -56,20 +58,15 @@ class AppState:
     error: str | None = None
 
     def load(self):
-        print("Fitting production models on full 2015/16 season ...")
+        print("Loading production models for the full 2015/16 season ...")
         results = load_results()
         season_results = results[results["Season"] == "2015/16"]
 
         self.static_model = DixonColes().fit(season_results)
-        # Lighter than the 800/800/4 used for rigorous evaluation
-        # (bayesian/run_all_seasons.py) -- this fit only needs to give
-        # reasonable point estimates for live serving, and a smaller
-        # sample keeps cold-start time bounded on slower/BLAS-degraded
-        # hardware. The evaluated results in RESULTS.md don't depend on
-        # this fit at all.
-        self.bayesian_model = HierarchicalDixonColes(n_periods=8).fit(
-            season_results, draws=300, tune=300, chains=2, random_seed=42
-        )
+        # The posterior means are deterministic deployment data, so load
+        # the fit produced by bayesian/precompute_production_fit.py rather
+        # than compiling PyTensor and running NUTS on every cold start.
+        self.bayesian_model = FrozenBayesianStrength.from_json(BAYESIAN_FIT_FILE)
 
         self.features_df = pd.read_parquet(PROCESSED_DIR / "ingame_features_2015_16.parquet")
         # match-level split for the internal validation set, consistent

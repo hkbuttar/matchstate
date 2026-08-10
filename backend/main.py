@@ -3,7 +3,8 @@ FastAPI backend. Serves match state, live in-game win
 probability trajectories, big-moment detection, and the held-out
 evaluation results from bayesian/, models/, calibration/, market/, and backtest/.
 
-Models are fit once, kept in memory, and loaded in a BACKGROUND THREAD
+Models are loaded once (with lightweight models fit in memory), kept in
+memory, and loaded in a BACKGROUND THREAD
 kicked off from the lifespan startup rather than awaited synchronously
 there -- see backend/state.py's module docstring for why: uvicorn doesn't
 bind its port until lifespan startup returns, so a slow synchronous fit
