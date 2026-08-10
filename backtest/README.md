@@ -1,17 +1,10 @@
 # Walk-Forward Validation & Statistical Rigor
 
-`bayesian/`, `models/`, `calibration/`, and `market/` all reported point
-estimates on held-out data. This asks the question those couldn't answer
-on their own: **are these differences real, or within noise?** Two
-genuinely different analyses, both using block bootstrap (blocked by
-match, never by row -- `calibration/` already showed row-level correlation
-within a match understates uncertainty if ignored).
+`bayesian/`, `models/`, `calibration/`, and `market/` all reported point estimates on held-out data. This asks the question those couldn't answer on their own: **are these differences real, or within noise?** Two genuinely different analyses, both using block bootstrap (blocked by match, never by row -- `calibration/` already showed row-level correlation within a match understates uncertainty if ignored).
 
 ## Part 1: In-game model comparison, with confidence intervals (`backtest/ingame_bootstrap.py`)
 
-Re-scores the static Dixon-Coles / hierarchical Bayesian / GBM /
-market-plus-naive-adjustment comparison from `models/` and `market/` with
-2,000 match-block bootstrap resamples on the same 95 test matches.
+Re-scores the static Dixon-Coles / hierarchical Bayesian / GBM / market-plus-naive-adjustment comparison from `models/` and `market/` with 2,000 match-block bootstrap resamples on the same 95 test matches.
 
 | Model | Brier | 95% CI |
 |---|---|---|
@@ -29,42 +22,15 @@ market-plus-naive-adjustment comparison from `models/` and `market/` with
 | Market - Static | -0.0064 | [-0.021, +0.009] | not significant |
 | **Market - GBM** | **-0.0293** | **[-0.056, -0.002]** | **significant** |
 
-**Honest, humbling headline: almost none of the point-estimate
-differences discussed in `bayesian/`, `models/`, and `market/` survive
-proper uncertainty quantification on this single 95-match test set.**
-`bayesian/`'s "Bayesian beats static in 22/33 seasons" and `market/`'s
-"market edges out our best model in-game" are both directionally
-consistent with what the bootstrap shows, but neither difference clears
-statistical significance here -- the confidence intervals comfortably
-include zero. Only two things are statistically solid: GBM is measurably
-worse than the Bayesian model, and the market is measurably better than
-GBM. Everything else discussed earlier in this project should be read as
-"the best available point estimate, with real, non-trivial uncertainty"
-rather than a settled ranking -- exactly the discipline this analysis
-exists to enforce.
+**Honest, humbling headline: almost none of the point-estimate differences discussed in `bayesian/`, `models/`, and `market/` survive proper uncertainty quantification on this single 95-match test set.** `bayesian/`'s "Bayesian beats static in 22/33 seasons" and `market/`'s "market edges out our best model in-game" are both directionally consistent with what the bootstrap shows, but neither difference clears statistical significance here -- the confidence intervals comfortably include zero. Only two things are statistically solid: GBM is measurably worse than the Bayesian model, and the market is measurably better than GBM. Everything else discussed earlier in this project should be read as "the best available point estimate, with real, non-trivial uncertainty" rather than a settled ranking -- exactly the discipline this analysis exists to enforce.
 
 ## Part 2: Cross-season Dixon-Coles walk-forward (`backtest/season_walkforward.py`)
 
-The Bayesian/GBM/market comparisons are necessarily confined to the
-single StatsBomb season (`data/README.md`'s disclosed coverage
-constraint) -- but Dixon-Coles only needs goal-level results, available
-for all 33 seasons.
-This is the one model in the project that can be tested with genuine
-cross-season walk-forward validation: fit on season N, predict season
-N+1, zero lookahead.
+The Bayesian/GBM/market comparisons are necessarily confined to the single StatsBomb season (`data/README.md`'s disclosed coverage constraint) -- but Dixon-Coles only needs goal-level results, available for all 33 seasons. This is the one model in the project that can be tested with genuine cross-season walk-forward validation: fit on season N, predict season N+1, zero lookahead.
 
-**Scope, disclosed:** ~3 clubs are promoted/relegated every season and
-have no prior-season fit at all -- rather than guess, matches involving
-such a team are excluded (3,434 of 12,242 candidate matches, 28%). The
-result below is specifically "how well does last season's strength
-predict this season, among clubs that stayed in the league" -- a real,
-disclosed narrowing, not the harder problem of predicting newly-promoted
-teams.
+**Scope, disclosed:** ~3 clubs are promoted/relegated every season and have no prior-season fit at all -- rather than guess, matches involving such a team are excluded (3,434 of 12,242 candidate matches, 28%). The result below is specifically "how well does last season's strength predict this season, among clubs that stayed in the league" -- a real, disclosed narrowing, not the harder problem of predicting newly-promoted teams.
 
-Compared against the SAME matches' static Dixon-Coles in-sample fit
-(same-season parameters -- the honest ceiling of "what if you got to fit on the
-season you're predicting"), across 8,808 matches spanning 32
-season-transitions (1994/95-2025/26):
+Compared against the SAME matches' static Dixon-Coles in-sample fit (same-season parameters -- the honest ceiling of "what if you got to fit on the season you're predicting"), across 8,808 matches spanning 32 season-transitions (1994/95-2025/26):
 
 | | Brier | 95% CI |
 |---|---|---|
@@ -72,28 +38,12 @@ season-transitions (1994/95-2025/26):
 | In-sample (same-season params) | 0.5697 | [0.563, 0.577] |
 | **Difference** | **+0.0336** | **[+0.029, +0.038] -- significant** |
 
-**This is the clean, well-powered result the 95-match test set couldn't
-give.** With 8,808 matches instead of 95, confidence intervals are an
-order of magnitude tighter (~0.01 wide vs. ~0.14 wide), and this gap is
-unambiguous: predicting purely from last season's fitted strength really
-does cost real accuracy compared to fitting on the season itself. This is
-a direct, rigorously quantified confirmation of the exact problem that
-motivated `bayesian/`'s partial-pooling design (teams are hardest to
-predict early in a season, before their own results accumulate) -- now
-backed by 30x the data of any single-season comparison in this project.
+**This is the clean, well-powered result the 95-match test set couldn't give.** With 8,808 matches instead of 95, confidence intervals are an order of magnitude tighter (~0.01 wide vs. ~0.14 wide), and this gap is unambiguous: predicting purely from last season's fitted strength really does cost real accuracy compared to fitting on the season itself. This is a direct, rigorously quantified confirmation of the exact problem that motivated `bayesian/`'s partial-pooling design (teams are hardest to predict early in a season, before their own results accumulate) -- now backed by 30x the data of any single-season comparison in this project.
 
 ## The methodological lesson, stated directly
 
-The contrast between these two analyses is itself a finding: **95
-matches is not enough data to reliably distinguish close models from
-each other**, even when their point estimates look meaningfully
-different. 8,808 matches is enough to detect a real, moderate-sized
-effect cleanly. Every claim earlier in this project drawn from the
-single StatsBomb season should be read with that asymmetry in mind --
-it's the direct, quantified consequence of the disclosed 380-match
-ceiling on event-level data (`data/README.md`).
+The contrast between these two analyses is itself a finding: **95 matches is not enough data to reliably distinguish close models from each other**, even when their point estimates look meaningfully different. 8,808 matches is enough to detect a real, moderate-sized effect cleanly. Every claim earlier in this project drawn from the single StatsBomb season should be read with that asymmetry in mind -- it's the direct, quantified consequence of the disclosed 380-match ceiling on event-level data (`data/README.md`).
 
 ## Output
 
-`data/processed/ingame_bootstrap.json`,
-`data/processed/season_walkforward.json`.
+`data/processed/ingame_bootstrap.json`, `data/processed/season_walkforward.json`.
